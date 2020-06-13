@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}  {% endblock %}
+{% block content %}
+<div class="row">
+    <div class="col-md-10 mx-auto social-container my-2 order-md-1">
+        <h2 class="sign_in_text">Sign In/Sign Up</h2>
+        <form method="POST" action="{% url 'validate_user' %}" >{% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center">
+            <button type="submit"  class="btn btn-outline-primary">
+                Submit
+            </button>
+            </div>
+        </form>
+        <div class="btn-flex">
+            <a class="icon" href="{% url 'social:begin' 'github' %}"><i class="fa fa-github black"></i></a>
+            <a class="icon" href="{% url 'social:begin' 'twitter' %}"><i class="fa fa-twitter cyan"></i></a>
+            <a class="icon" href="{% url 'social:begin' 'linkedin-oauth2' %}"><i class="fa fa-linkedin dCyan"></i></a>
+        </div>
+    </div>
+     {% for message in messages %}
+            <script>
+                setTimeout(() => {
+                    alert('Wrong password!')
+                },100);
+            </script>
+     {% endfor %}
+</div>
+{% endblock %}

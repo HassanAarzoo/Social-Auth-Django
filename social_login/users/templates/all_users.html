@@ -1,0 +1,30 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>All users</title>
+        <link rel="stylesheet" href="{% static 'css/table_style.css' %}" />
+    </head>
+    <body>
+        <h1>User Table</h1>
+        <table>
+            <tr>
+                <th>User Id</th>
+                <th>Name</th>
+                <th>Phone</th>
+                <th>Email</th>
+            </tr>
+            {% for users in user_details %}
+                <tr>
+                    <td><a href="{% url 'single_user' users.id%}">{{users.id}}</a></td>
+                    <td>{{users.name}}</td>
+                    <td>{{users.phone}}</td>
+                    <td>{{users.email_field}}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </body>
+</html>
+
+

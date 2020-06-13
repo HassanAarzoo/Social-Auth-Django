@@ -1,0 +1,22 @@
+○ Create a social login webapp for login via Github , linkedin and Twitter.
+    ■ Setup postgres and create user table with entities
+        ■ id
+        ■ name (Not null constraint)
+        ■ Email (Uniqueness constraint)
+        ■ phone number (Index constraint)
+        ■ Meta = {“github”:data1, “linkedIn” : data2, “twitter”:data3}
+■ Merge all users' details based on their unique email id.
+    ■ Create listed APIs
+        ■ GET /user/all/ => Showcase all the user details in basic
+        tabular format, hyperlink each id with /user/id/
+        ■ GET /user/id/ => showcase per user details.
+        ■ PUT /user/set_password/
+            ■ Set password
+        ■ /login/
+            ■ Login using Email and password, maintain user
+            session.
+            ■ Once login successfully => Show hello <User
+            Name> and logout tab.
+
+        ■ /user/search/
+            ■ Option to search user with phone number
