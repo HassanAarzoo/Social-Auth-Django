@@ -10,32 +10,37 @@
 
     {% for data in backends.associated %}
         {% if data.provider == 'github' %}
-            <div class="col-md-6 social-container my-2">
+            <div class="col-sm-12 social-container my-2">
                 <p> Signed in via: {{ data.provider }} </p>
                 <p> Name: {{ data }} </p>
-                <p> Email : {{ data.extra_data.email }}</p>
+                <p> Email : <span class="email">{{ data.extra_data.email }}</span></p>
+                {% include 'password.html' %}
             </div>
         {% endif %}
         {% if data.provider == 'linkedin-oauth2' %}
-            <div class="col-md-6 social-container my-2">
+            <div class="col-sm-12 social-container my-2">
                 <p> Signed in via: Linkedin </p>
                 <p> Name: {{ data }} </p>
-                <p> Email : {{ data.extra_data.email_address }}</p>
+                <p> Email : <span class="email">{{ data.extra_data.email_address }}</span></p>
+                {% include 'password.html' %}
             </div>
+
         {% endif %}
         {% if data.provider == 'twitter' %}
-            <div class="col-md-6 social-container my-2">
+            <div class="col-sm-12 social-container my-2">
                 <p> Signed in via: Twitter </p>
                 <p> Name: {{ data }} </p>
-                <p> Email : {{ data.extra_data.email}}</p>
+                <p> Email : <span class="email">{{ data.extra_data.email}}</span></p>
+                {% include 'password.html' %}
             </div>
         {% endif %}
     {% endfor %}
     {% if user_details %}
-        <div class="col-md-6 social-container my-2">
+        <div class="col-sm-12 social-container my-2">
             <p> Signed in via: Website </p>
             <p> Name: {{ user_details.name }} </p>
-            <p> Email : {{ user_details.email_field }}</p>
+            <p> Email : <span class="email">{{ user_details.email_field }}</span></p>
+            {% include 'password.html' %}
         </div>
     {% endif %}
 
@@ -46,4 +51,7 @@
     </div>
 
 </div>
+
+
+
 {% endblock %}

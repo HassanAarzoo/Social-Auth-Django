@@ -78,10 +78,21 @@ WSGI_APPLICATION = 'social_login.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'social_login_django',
+        'USER': 'social_user',
+        'PASSWORD': 'social',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 
@@ -112,8 +123,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 
-SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = '8625y8g2xxitpc'
-SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = 'zpt6ptrE7F7qOfez'
+SOCIAL_AUTH_LINKEDIN_OAUTH2_KEY = ''
+SOCIAL_AUTH_LINKEDIN_OAUTH2_SECRET = ''
 
 
 SOCIAL_AUTH_LINKEDIN_OAUTH2_SCOPE = ['r_liteprofile', 'r_emailaddress']
@@ -124,16 +135,16 @@ SOCIAL_AUTH_LINKEDIN_OAUTH2_EXTRA_DATA = [('id', 'id'),
                                           ('emailAddress', 'email_address')]
 
 
-SOCIAL_AUTH_GITHUB_KEY = '498f7d6a74b597f2cf76'
-SOCIAL_AUTH_GITHUB_SECRET = '94648892b6a48b9a9588c337e357c34237aa97ef'
+SOCIAL_AUTH_GITHUB_KEY = ''
+SOCIAL_AUTH_GITHUB_SECRET = ''
 SOCIAL_AUTH_GITHUB_SCOPE = ['user:email']
 SOCIAL_AUTH_GITHUB_EXTRA_DATA = [
     ('email', 'email')
 ]
 
 
-SOCIAL_AUTH_TWITTER_KEY = 'Lh9UjvoHdP5ha26hNdcp2Etcu'
-SOCIAL_AUTH_TWITTER_SECRET = 'at3lSMeHPQlPGZIiGvKdU5yTA6Ju2HPnEEBtimc4vhs7A2FsQ1'
+SOCIAL_AUTH_TWITTER_KEY = ''
+SOCIAL_AUTH_TWITTER_SECRET = ''
 SOCIAL_AUTH_TWITTER_SCOPE = ['email']
 SOCIAL_AUTH_TWITTER_EXTRA_DATA = [
     ('email', 'email')

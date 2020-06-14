@@ -1,17 +1,15 @@
 import collections
+import json
 
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from django.contrib import messages
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
+from django.core import serializers
 
-from urllib.parse import urlencode
-
-from django.contrib.sessions.models import Session
 from users.forms import UserDetailsForm
 from users.models import UserDetails
 from users.models import SocialLoginDetails
-from django.contrib.sessions.backends.db import SessionStore
 
 
 def login(request):
@@ -33,14 +31,16 @@ def home(request):
 
             for data in user.social_auth.values_list('extra_data'):
                 meta_details = data[0]
+            print("details and provider")
+
             if not SocialLoginDetails.objects.filter(user=user_obj, provider_social=provider):
                 SocialLoginDetails.objects.create(user=user_obj, provider_social=provider, meta=meta_details)
 
-            return render(request, 'home.html')
+            return render(request, 'home.html', {"has_password": True if user_obj.password else False })
         elif request.session.session_key:
             email = request.session['email']
             user = UserDetails.objects.get(email_field=email)
-            return render(request, 'home.html', {'user_details': user})
+            return render(request, 'home.html', {'user_details': user, "has_password": True if user.password else False })
     return redirect(reverse('login'))
 
 
@@ -58,10 +58,6 @@ def validate_user(request):
         if password != user_obj.password:
             messages.error(request, 'Incorrect Password')
             return redirect('login')
-        # TODO
-        # This will be removed once edit option is put into html
-        if not user_obj.password:
-            UserDetails.objects.filter(email_field=email).update(password=password)
 
     base_url = reverse('home')
     request.session['email'] = email
@@ -78,12 +74,35 @@ def single_user(request, user_id):
     return render(request, 'single_user.html', {'users': users})
 
 
-def update_or_set_password(request, user_id):
-    #TODO Get password from FE and set pass also check if it is a put request or not
-    UserDetails.objects.filter(id=id).update()
+def update_or_set_password(request):
+    body = json.loads(request.body)
+    email_field = body["email"]
+    password_field = body["password"]
+    UserDetails.objects.filter(email_field=email_field).update(password=password_field)
     return HttpResponse('Password updated successfully')
 
-# TODO Test this
+
+def update_phone(request):
+    if request.method == 'PUT':
+        body = json.loads(request.body)
+        phone = body["phone"]
+        email_field = body["email"]
+        user_obj = UserDetails.objects.filter(email_field=email_field)
+        if user_obj:
+            UserDetails.objects.filter(email_field=email_field).update(phone=phone)
+            return JsonResponse({'message': 'Phone updated successfully'}, status=200)
+        return JsonResponse({'message': 'Error in Credentials'}, status=400)
+    return render(request, 'update_phone.html')
+
+
 def search_user(request, phone):
-    users = get_object_or_404(UserDetails, id=phone)
+    users = get_object_or_404(UserDetails, phone=phone)
     return render(request, 'single_user.html', {'users': users})
+
+
+def get_social_details(request, email):
+    user = UserDetails.objects.get(email_field=email)
+    social_login_details = SocialLoginDetails.objects.filter(user=user)
+    print(social_login_details[0].user.email_field)
+    return render(request, 'social_details.html', {'user_details': social_login_details})
+

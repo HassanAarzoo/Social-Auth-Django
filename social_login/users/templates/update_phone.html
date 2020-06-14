@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block content %}
+<div>
+    <input type="tel" value = "" placeholder="+91 1234567890" id="phoneField"/>
+    <input type="email" value = "" placeholder="foo@bar.com" id="emailField" />
+    <button  onclick="setphone(event)">Submit</button>
+</div>
+<script>
+    function setphone(e) {
+        const phoneField = document.getElementById("phoneField");
+        const emailField = document.getElementById("emailField");
+        const csrfmiddlewaretoken = Cookies.get('csrftoken');
+        const putData = {
+            phone: phoneField.value,
+            email: emailField.value,
+        };
+        fetch("/update_phone/", {
+            method: "PUT",
+            body: JSON.stringify(putData),
+            headers: {
+                "X-CSRFToken": csrfmiddlewaretoken,
+            },
+        })
+        .then((res) => {
+         if (res.status == 400) {
+            alert("Wrong Credentials");
+         } else if (res.status == 200) {
+            alert("Updated Successfully");
+         }
+        })
+     }
+</script>
+{% endblock %}

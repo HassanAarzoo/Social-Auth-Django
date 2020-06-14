@@ -13,5 +13,7 @@ urlpatterns = [
     path('all_users/', views.all_user, name='user'),
     path('single_user/<int:user_id>/', views.single_user, name='single_user'),
     path('update_pass/', views.update_or_set_password, name='update_or_set_password'),
-    path('search_user/<str:phone>', views.search_user, name='search_user')
+    path('search_user/<str:phone>', views.search_user, name='search_user'),
+    path('update_phone/', views.update_phone, name='update_phone'),
+    path('get_socialdetails/<str:email>/', views.get_social_details, name='social_details'),
 ]
